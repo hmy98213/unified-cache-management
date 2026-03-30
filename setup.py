@@ -156,7 +156,8 @@ class CMakeBuild(build_ext):
 
         cmake_args = [
             "-DCMAKE_BUILD_TYPE=Release",
-            f"-DPYTHON_EXECUTABLE={sys.executable}",
+            f"-DPython_EXECUTABLE={sys.executable}",
+            "-DPYBIND11_FINDPYTHON=ON",
             f"-DCMAKE_INSTALL_PREFIX={install_dir}",
         ]
 

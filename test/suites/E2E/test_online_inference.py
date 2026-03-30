@@ -27,7 +27,7 @@ os.environ["ENABLE_UCM_PATCH"] = "1"
 # These online E2E cases start a fresh vLLM instance with UCM enabled and a
 # relatively large max_model_len, so the previous 6 GB hint translated to an
 # unrealistically small --gpu-memory-utilization (~6%) on H20 GPUs.
-ONLINE_INFERENCE_GPU_MEM_MB = 60000
+ONLINE_INFERENCE_GPU_MEM_MB = 6000
 
 
 class TestBasicOnlineInference:
