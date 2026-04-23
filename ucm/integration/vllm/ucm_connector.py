@@ -17,7 +17,6 @@ from vllm.distributed.kv_transfer.kv_connector.v1.base import (
     KVConnectorRole,
 )
 from vllm.distributed.parallel_state import get_world_group
-from vllm.distributed.utils import get_pp_indices
 from vllm.model_executor.models.utils import extract_layer_index
 from vllm.platforms import current_platform
 from vllm.v1.core.sched.output import SchedulerOutput
@@ -73,12 +72,6 @@ class KVCacheLayout:
         self.num_hidden_layers = getattr(
             self.vllm_config.model_config.hf_text_config, "num_hidden_layers", 0
         )
-        self.pp_rank = (
-            self.vllm_config.parallel_config.rank
-            // self.vllm_config.parallel_config.tensor_parallel_size
-        ) % self.vllm_config.parallel_config.pipeline_parallel_size
-        start, end = get_pp_indices(self.num_hidden_layers, self.pp_rank, self.pp_size)
-        self.local_num_hidden_layers = end - start
         if self.pp_size > 1 and self.num_hidden_layers <= 0:
             raise ValueError("num_hidden_layers must be > 0 when pp_size > 1")
         self.layer_name_to_id = {
